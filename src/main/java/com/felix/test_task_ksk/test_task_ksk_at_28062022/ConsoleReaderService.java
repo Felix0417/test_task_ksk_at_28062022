@@ -1,22 +1,22 @@
 package com.felix.test_task_ksk.test_task_ksk_at_28062022;
 
+
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.jackson.JsonObjectSerializer;
-import org.springframework.boot.json.JsonParserFactory;
+
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.DataInputStream;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.logging.XMLFormatter;
+
 
 @Component
 public class ConsoleReaderService implements CommandLineRunner {
@@ -43,10 +43,16 @@ public class ConsoleReaderService implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         pathXML = getPathXML();
-        FileInputStream fileInputStream = new FileInputStream(String.valueOf(pathXML));
+        InputStream inputStream = new FileInputStream(String.valueOf(pathXML));
 //        XMLDecoder decoder = new XMLDecoder(fileInputStream);
+//        C:\Users\Felix\IdeaProjects\test_task_ksk_at_28062022\sample.xml
 
+        String s = new String(Files.readAllBytes(pathXML));
 
+        XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
+        XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(inputStream);
+        XmlMapper xmlMapper = new XmlMapper();
+        xmlStreamReader.next();
     }
 
     @JacksonXmlElementWrapper
